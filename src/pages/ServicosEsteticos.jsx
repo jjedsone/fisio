@@ -179,7 +179,7 @@ const ServicosEsteticos = () => {
                       alt={servico.nome}
                       className="service-image"
                       onError={(e) => {
-                        e.target.src = '';
+                        e.target.style.display = 'none';
                       }}
                     />
                     <div className="service-overlay">
