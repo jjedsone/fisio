@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "bot": "node whatsapp-bot.js",
     "server": "node server/whatsapp-server.js",
-    "sync": "node sync-data.js"
+    "sync": "node sync-data.js",
+    "update": "git add . && git commit -m 'Atualização' && git push"
   },
   "dependencies": {
     "react": "^19.1.1",
