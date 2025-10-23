@@ -26,7 +26,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Desobstrui os poros', 'Remove cravos e impurezas', 'Renova a pele', 'Previne acne'],
           duracao: '60 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/limpeza-pele.jpg',
+          imagem: '/images/servicos/Limpeza de Pele Profunda.jpg',
           ativo: true
         },
         {
@@ -37,7 +37,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Clareia manchas', 'Reduz rugas finas', 'Melhora textura', 'Estimula colágeno'],
           duracao: '45 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/peeling.jpg',
+          imagem: '/images/servicos/Peeling Químico.jpg',
           ativo: true
         },
         {
@@ -48,7 +48,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Rejuvenesce a pele', 'Reduz cicatrizes', 'Minimiza poros', 'Aumenta firmeza'],
           duracao: '90 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/microagulhamento.jpg',
+          imagem: '/images/servicos/Microagulhamento.jpg',
           ativo: true
         },
         {
@@ -59,7 +59,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Reduz inchaço', 'Melhora circulação', 'Efeito lifting', 'Relaxamento profundo'],
           duracao: '50 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/drenagem-facial.jpg',
+          imagem: '/images/servicos/Drenagem Linfática Facial.jpg',
           ativo: true
         },
         {
@@ -70,7 +70,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Elimina toxinas', 'Reduz celulite', 'Diminui medidas', 'Sensação de leveza'],
           duracao: '60 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/drenagem-corporal.jpg',
+          imagem: '/images/servicos/Drenagem Linfática Corporal.jpg',
           ativo: true
         },
         {
@@ -81,7 +81,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Alivia tensões', 'Reduz estresse', 'Melhora sono', 'Bem-estar geral'],
           duracao: '60 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/massagem-relaxante.jpg',
+          imagem: '/images/servicos/Massagem Relaxante.jpg',
           ativo: true
         },
         {
@@ -92,7 +92,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Relaxamento profundo', 'Alivia dores musculares', 'Melhora circulação', 'Equilíbrio energético'],
           duracao: '75 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/pedras-quentes.jpg',
+          imagem: '/images/servicos/Massagem com Pedras Quentes.jpg',
           ativo: true
         },
         {
@@ -103,7 +103,7 @@ const ServicosEsteticos = () => {
           beneficios: ['Hidratação intensa', 'Pele macia', 'Luminosidade', 'Anti-idade'],
           duracao: '50 minutos',
           preco: 'Consulte',
-          imagem: '/images/servicos/hidratacao-facial.jpg',
+          imagem: '/images/servicos/Hidratação Facial Profunda.jpg',
           ativo: true
         }
       ];
