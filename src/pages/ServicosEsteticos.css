@@ -1,0 +1,423 @@
+/* ========================================
+   SERVIÇOS ESTÉTICOS
+======================================== */
+
+/* Hero Section */
+.esteticos-hero {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 5rem 0 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.esteticos-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M50 0 L100 50 L50 100 L0 50 Z" fill="rgba(255,255,255,0.05)"/%3E%3C/svg%3E');
+  opacity: 0.1;
+}
+
+.hero-content-esteticos {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title-esteticos {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle-esteticos {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  opacity: 0.95;
+  line-height: 1.6;
+}
+
+/* Filter Section */
+.filter-section {
+  padding: 3rem 0 2rem;
+  background: white;
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.875rem 2rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-icon {
+  font-size: 1.25rem;
+}
+
+.filter-btn:hover {
+  border-color: #f093fb;
+  color: #f093fb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(240, 147, 251, 0.2);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+}
+
+/* Services Section */
+.services-section {
+  padding: 4rem 0;
+  background: #f7fafc;
+}
+
+.services-grid-esteticos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
+}
+
+.service-card-estetico {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card-estetico:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(240, 147, 251, 0.25);
+}
+
+.service-image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.service-card-estetico:hover .service-image {
+  transform: scale(1.1);
+}
+
+.service-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+}
+
+.service-duracao {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2d3748;
+  backdrop-filter: blur(10px);
+}
+
+.service-content {
+  padding: 1.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.service-categoria {
+  font-size: 0.875rem;
+  color: #f093fb;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.service-descricao {
+  font-size: 1rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.service-beneficios {
+  background: #f7fafc;
+  padding: 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.service-beneficios h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.75rem;
+}
+
+.service-beneficios ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.service-beneficios li {
+  font-size: 0.9rem;
+  color: #4a5568;
+  padding: 0.375rem 0;
+  line-height: 1.5;
+}
+
+.service-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 2px solid #f7fafc;
+}
+
+.service-preco {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f093fb;
+}
+
+.btn-agendar {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 0.75rem 1.75rem;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
+}
+
+.btn-agendar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(240, 147, 251, 0.5);
+}
+
+/* No Services */
+.no-services {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #a0aec0;
+  font-size: 1.125rem;
+}
+
+/* CTA Section */
+.cta-section-esteticos {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 5rem 0;
+  text-align: center;
+  color: white;
+}
+
+.cta-content h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.btn-cta-whatsapp {
+  display: inline-block;
+  background: #25d366;
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.btn-cta-whatsapp:hover {
+  background: #20ba5a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+@media (max-width: 768px) {
+  .esteticos-hero {
+    padding: 3rem 0 2.5rem;
+  }
+
+  .filter-section {
+    padding: 2rem 0 1.5rem;
+    top: 60px;
+  }
+
+  .filter-buttons {
+    gap: 0.75rem;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .services-section {
+    padding: 3rem 0;
+  }
+
+  .services-grid-esteticos {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .service-image-container {
+    height: 220px;
+  }
+
+  .service-content {
+    padding: 1.5rem;
+  }
+
+  .service-name {
+    font-size: 1.35rem;
+  }
+
+  .service-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .btn-agendar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cta-section-esteticos {
+    padding: 3rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-grid-esteticos {
+    gap: 1.5rem;
+  }
+
+  .service-image-container {
+    height: 200px;
+  }
+
+  .service-beneficios {
+    padding: 1rem;
+  }
+
+  .filter-btn {
+    flex: 1;
+    min-width: calc(50% - 0.5rem);
+    justify-content: center;
+  }
+}
+
+/* Animations */
+@media (prefers-reduced-motion: no-preference) {
+  .service-card-estetico {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .service-card-estetico:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .service-card-estetico:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .service-card-estetico:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .service-card-estetico:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .service-card-estetico:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  .service-card-estetico:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
