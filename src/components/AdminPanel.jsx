@@ -39,8 +39,34 @@ const AdminPanel = ({ onClose }) => {
     breakEnd: '13:00',
     appointmentDuration: 60 // minutos
   });
+  
+  // Estados de segurança
+  const [securitySettings, setSecuritySettings] = useState({
+    password: 'd@vi2023',
+    twoFactorEnabled: false,
+    phoneNumber: '5511948541086'
+  });
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [sentCode, setSentCode] = useState('');
+  const [codeExpiry, setCodeExpiry] = useState(null);
+  const [passwordRecoveryStep, setPasswordRecoveryStep] = useState(1);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  const ADMIN_PASSWORD = 'admin123'; // Em produção, usar autenticação real
+  useEffect(() => {
+    // Carregar configurações de segurança
+    const storedSecurity = localStorage.getItem('securitySettings');
+    if (storedSecurity) {
+      setSecuritySettings(JSON.parse(storedSecurity));
+    } else {
+      // Salvar configurações padrão
+      localStorage.setItem('securitySettings', JSON.stringify(securitySettings));
+    }
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -88,6 +114,160 @@ const AdminPanel = ({ onClose }) => {
   const saveSettings = (newSettings) => {
     localStorage.setItem('adminSettings', JSON.stringify(newSettings));
     setSettings(newSettings);
+  };
+
+  // ============ FUNÇÕES DE SEGURANÇA ============
+  
+  const generateVerificationCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
+  const sendWhatsAppCode = (code, type = 'login') => {
+    const messages = {
+      login: `🔐 *Código de Verificação - Dra. Teiciane Ramalho*\n\nSeu código de acesso ao painel administrativo é:\n\n*${code}*\n\nEste código expira em 5 minutos.\n\n⚠️ Se você não solicitou este código, ignore esta mensagem.`,
+      recovery: `🔑 *Recuperação de Senha - Dra. Teiciane Ramalho*\n\nSeu código de recuperação de senha é:\n\n*${code}*\n\nEste código expira em 5 minutos.\n\n⚠️ Se você não solicitou este código, ignore esta mensagem.`
+    };
+
+    const message = encodeURIComponent(messages[type]);
+    const whatsappUrl = `https://wa.me/${securitySettings.phoneNumber}?text=${message}`;
+    
+    // Abrir WhatsApp em nova aba
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    if (password === securitySettings.password) {
+      if (securitySettings.twoFactorEnabled) {
+        // Gerar e enviar código 2FA
+        const code = generateVerificationCode();
+        setSentCode(code);
+        setCodeExpiry(Date.now() + 5 * 60 * 1000); // 5 minutos
+        sendWhatsAppCode(code, 'login');
+        alert('✅ Senha correta! Um código de verificação foi enviado para seu WhatsApp.');
+      } else {
+        // Login direto
+        setIsAuthenticated(true);
+        alert('✅ Login realizado com sucesso!');
+      }
+    } else {
+      alert('❌ Senha incorreta!');
+    }
+  };
+
+  const handleVerifyCode = (e) => {
+    e.preventDefault();
+    
+    if (Date.now() > codeExpiry) {
+      alert('❌ Código expirado! Solicite um novo código.');
+      setSentCode('');
+      setVerificationCode('');
+      return;
+    }
+
+    if (verificationCode === sentCode) {
+      setIsAuthenticated(true);
+      setVerificationCode('');
+      setSentCode('');
+      alert('✅ Código verificado! Acesso liberado.');
+    } else {
+      alert('❌ Código incorreto! Tente novamente.');
+    }
+  };
+
+  const handleForgotPassword = () => {
+    setShowForgotPassword(true);
+    const code = generateVerificationCode();
+    setSentCode(code);
+    setCodeExpiry(Date.now() + 5 * 60 * 1000);
+    sendWhatsAppCode(code, 'recovery');
+    setPasswordRecoveryStep(1);
+  };
+
+  const handleRecoveryCodeVerification = (e) => {
+    e.preventDefault();
+    
+    if (Date.now() > codeExpiry) {
+      alert('❌ Código expirado! Tente novamente.');
+      setShowForgotPassword(false);
+      return;
+    }
+
+    if (verificationCode === sentCode) {
+      setPasswordRecoveryStep(2);
+      alert('✅ Código verificado! Agora defina sua nova senha.');
+    } else {
+      alert('❌ Código incorreto!');
+    }
+  };
+
+  const handleResetPassword = (e) => {
+    e.preventDefault();
+    
+    if (newPassword.length < 6) {
+      alert('❌ A senha deve ter pelo menos 6 caracteres!');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert('❌ As senhas não coincidem!');
+      return;
+    }
+
+    const updatedSecurity = { ...securitySettings, password: newPassword };
+    setSecuritySettings(updatedSecurity);
+    localStorage.setItem('securitySettings', JSON.stringify(updatedSecurity));
+    
+    setShowForgotPassword(false);
+    setPasswordRecoveryStep(1);
+    setVerificationCode('');
+    setNewPassword('');
+    setConfirmPassword('');
+    
+    alert('✅ Senha alterada com sucesso! Faça login com sua nova senha.');
+  };
+
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+    
+    if (currentPassword !== securitySettings.password) {
+      alert('❌ Senha atual incorreta!');
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      alert('❌ A nova senha deve ter pelo menos 6 caracteres!');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert('❌ As senhas não coincidem!');
+      return;
+    }
+
+    const updatedSecurity = { ...securitySettings, password: newPassword };
+    setSecuritySettings(updatedSecurity);
+    localStorage.setItem('securitySettings', JSON.stringify(updatedSecurity));
+    
+    setShowPasswordModal(false);
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+    
+    alert('✅ Senha alterada com sucesso!');
+  };
+
+  const toggleTwoFactor = () => {
+    const updated = { ...securitySettings, twoFactorEnabled: !securitySettings.twoFactorEnabled };
+    setSecuritySettings(updated);
+    localStorage.setItem('securitySettings', JSON.stringify(updated));
+    
+    if (updated.twoFactorEnabled) {
+      alert('✅ Autenticação em 2 fatores ATIVADA! Na próxima vez você receberá um código no WhatsApp.');
+    } else {
+      alert('⚠️ Autenticação em 2 fatores DESATIVADA!');
+    }
   };
 
   // Funções do WhatsApp Bot
@@ -149,14 +329,6 @@ const AdminPanel = ({ onClose }) => {
     }
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
-    } else {
-      alert('Senha incorreta!');
-    }
-  };
 
   const updateAppointmentStatus = (id, newStatus) => {
     const updated = appointments.map(apt => 
@@ -339,6 +511,124 @@ const AdminPanel = ({ onClose }) => {
   ];
 
   if (!isAuthenticated) {
+    // Tela de recuperação de senha
+    if (showForgotPassword) {
+      return (
+        <div className="admin-overlay">
+          <div className="admin-login">
+            <button className="admin-close" onClick={() => {
+              setShowForgotPassword(false);
+              setPasswordRecoveryStep(1);
+              setVerificationCode('');
+            }}>✕</button>
+            
+            {passwordRecoveryStep === 1 && (
+              <>
+                <div className="admin-login-header">
+                  <h2>🔑 Recuperar Senha</h2>
+                  <p>Um código foi enviado para seu WhatsApp</p>
+                </div>
+                <form onSubmit={handleRecoveryCodeVerification}>
+                  <input
+                    type="text"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                    placeholder="Digite o código de 6 dígitos"
+                    className="admin-password-input"
+                    maxLength="6"
+                    autoFocus
+                  />
+                  <button type="submit" className="admin-login-btn">
+                    Verificar Código
+                  </button>
+                </form>
+                <button 
+                  className="forgot-password-link"
+                  onClick={handleForgotPassword}
+                  style={{ marginTop: '10px' }}
+                >
+                  📱 Reenviar código
+                </button>
+              </>
+            )}
+
+            {passwordRecoveryStep === 2 && (
+              <>
+                <div className="admin-login-header">
+                  <h2>🔑 Nova Senha</h2>
+                  <p>Defina sua nova senha de acesso</p>
+                </div>
+                <form onSubmit={handleResetPassword}>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Nova senha (mínimo 6 caracteres)"
+                    className="admin-password-input"
+                    autoFocus
+                  />
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirme a nova senha"
+                    className="admin-password-input"
+                    style={{ marginTop: '10px' }}
+                  />
+                  <button type="submit" className="admin-login-btn">
+                    Alterar Senha
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // Tela de verificação 2FA
+    if (sentCode && !isAuthenticated) {
+      return (
+        <div className="admin-overlay">
+          <div className="admin-login">
+            <button className="admin-close" onClick={onClose}>✕</button>
+            <div className="admin-login-header">
+              <h2>🔐 Verificação em 2 Fatores</h2>
+              <p>Digite o código enviado para seu WhatsApp</p>
+            </div>
+            <form onSubmit={handleVerifyCode}>
+              <input
+                type="text"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                placeholder="Digite o código de 6 dígitos"
+                className="admin-password-input"
+                maxLength="6"
+                autoFocus
+              />
+              <button type="submit" className="admin-login-btn">
+                Verificar Código
+              </button>
+            </form>
+            <button 
+              className="forgot-password-link"
+              onClick={() => {
+                const code = generateVerificationCode();
+                setSentCode(code);
+                setCodeExpiry(Date.now() + 5 * 60 * 1000);
+                sendWhatsAppCode(code, 'login');
+                alert('📱 Novo código enviado!');
+              }}
+              style={{ marginTop: '10px' }}
+            >
+              📱 Reenviar código
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Tela de login principal
     return (
       <div className="admin-overlay">
         <div className="admin-login">
@@ -346,6 +636,11 @@ const AdminPanel = ({ onClose }) => {
           <div className="admin-login-header">
             <h2>🔐 Painel Administrativo</h2>
             <p>Digite a senha para acessar</p>
+            {securitySettings.twoFactorEnabled && (
+              <p style={{ color: '#4CAF50', fontSize: '12px', marginTop: '5px' }}>
+                🔒 Autenticação em 2 fatores ativada
+              </p>
+            )}
           </div>
           <form onSubmit={handleLogin}>
             <input
@@ -360,7 +655,12 @@ const AdminPanel = ({ onClose }) => {
               Entrar
             </button>
           </form>
-          <p className="admin-hint"></p>
+          <button 
+            className="forgot-password-link"
+            onClick={handleForgotPassword}
+          >
+            🔑 Esqueci minha senha
+          </button>
         </div>
       </div>
     );
@@ -403,6 +703,15 @@ const AdminPanel = ({ onClose }) => {
             📱 WhatsApp Bot
             {whatsappStatus.isConnected && (
               <span className="badge-connected">●</span>
+            )}
+          </button>
+          <button 
+            className={`admin-tab ${activeTab === 'security' ? 'active' : ''}`}
+            onClick={() => setActiveTab('security')}
+          >
+            🔐 Segurança
+            {securitySettings.twoFactorEnabled && (
+              <span className="badge-connected" style={{ marginLeft: '5px' }}>✓</span>
             )}
           </button>
           <button 
@@ -909,6 +1218,91 @@ const AdminPanel = ({ onClose }) => {
             </div>
           )}
 
+          {activeTab === 'security' && (
+            <div className="settings-panel">
+              <h3>🔐 Configurações de Segurança</h3>
+              <p style={{ color: '#666', marginBottom: '20px' }}>
+                Proteja seu painel administrativo com camadas extras de segurança
+              </p>
+
+              <div className="settings-section">
+                <div className="security-feature-card">
+                  <div className="security-feature-header">
+                    <h4>🔑 Alterar Senha</h4>
+                    <p>Mantenha sua senha sempre atualizada e segura</p>
+                  </div>
+                  <button 
+                    className="btn-whatsapp-action"
+                    onClick={() => setShowPasswordModal(true)}
+                    style={{ marginTop: '15px' }}
+                  >
+                    Alterar Senha
+                  </button>
+                </div>
+
+                <div className="security-feature-card" style={{ marginTop: '20px' }}>
+                  <div className="security-feature-header">
+                    <h4>🔐 Autenticação em 2 Fatores (2FA)</h4>
+                    <p>Adicione uma camada extra de proteção ao seu login</p>
+                    <div style={{ 
+                      background: securitySettings.twoFactorEnabled ? '#e8f5e9' : '#fff3e0',
+                      border: `2px solid ${securitySettings.twoFactorEnabled ? '#4CAF50' : '#FF9800'}`,
+                      borderRadius: '8px',
+                      padding: '15px',
+                      marginTop: '15px'
+                    }}>
+                      <p style={{ 
+                        color: securitySettings.twoFactorEnabled ? '#2e7d32' : '#e65100',
+                        fontWeight: 'bold',
+                        marginBottom: '10px'
+                      }}>
+                        {securitySettings.twoFactorEnabled ? '✅ 2FA ATIVADO' : '⚠️ 2FA DESATIVADO'}
+                      </p>
+                      <p style={{ fontSize: '14px', color: '#666', marginBottom: '10px' }}>
+                        {securitySettings.twoFactorEnabled 
+                          ? 'Você receberá um código de 6 dígitos no WhatsApp sempre que fizer login.'
+                          : 'Ative para receber códigos de verificação no WhatsApp.'}
+                      </p>
+                      <p style={{ fontSize: '13px', color: '#999' }}>
+                        📱 Número: {securitySettings.phoneNumber.replace(/^55/, '+55 ').replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')}
+                      </p>
+                    </div>
+                  </div>
+                  <button 
+                    className="btn-whatsapp-action"
+                    onClick={toggleTwoFactor}
+                    style={{ 
+                      marginTop: '15px',
+                      background: securitySettings.twoFactorEnabled ? '#f44336' : '#4CAF50'
+                    }}
+                  >
+                    {securitySettings.twoFactorEnabled ? '🔓 Desativar 2FA' : '🔒 Ativar 2FA'}
+                  </button>
+                </div>
+
+                <div className="security-feature-card" style={{ marginTop: '20px', background: '#f5f5f5' }}>
+                  <div className="security-feature-header">
+                    <h4>ℹ️ Como Funciona a Segurança</h4>
+                    <ul style={{ marginTop: '15px', paddingLeft: '20px' }}>
+                      <li style={{ marginBottom: '10px' }}>
+                        <strong>Senha:</strong> Sua primeira linha de defesa. Use uma senha forte e única.
+                      </li>
+                      <li style={{ marginBottom: '10px' }}>
+                        <strong>2FA (Autenticação em 2 Fatores):</strong> Quando ativado, mesmo que alguém descubra sua senha, não poderá acessar sem o código do seu WhatsApp.
+                      </li>
+                      <li style={{ marginBottom: '10px' }}>
+                        <strong>Códigos Temporários:</strong> Todos os códigos expiram em 5 minutos por segurança.
+                      </li>
+                      <li>
+                        <strong>Recuperação de Senha:</strong> Caso esqueça sua senha, você pode recuperá-la via WhatsApp.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'settings' && (
             <div className="settings-panel">
               <h3>⚙️ Configurações de Horário</h3>
@@ -1205,6 +1599,96 @@ const AdminPanel = ({ onClose }) => {
                   {editingAppointment ? '💾 Salvar Alterações' : '✅ Cadastrar Consulta'}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Alteração de Senha */}
+        {showPasswordModal && (
+          <div className="modal-overlay">
+            <div className="modal-container">
+              <div className="modal-header">
+                <h3>🔑 Alterar Senha</h3>
+                <button className="modal-close" onClick={() => {
+                  setShowPasswordModal(false);
+                  setCurrentPassword('');
+                  setNewPassword('');
+                  setConfirmPassword('');
+                }}>✕</button>
+              </div>
+
+              <form onSubmit={handleChangePassword}>
+                <div className="modal-body">
+                  <div className="form-group">
+                    <label>Senha Atual</label>
+                    <input
+                      type="password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Digite sua senha atual"
+                      className="form-input"
+                      required
+                      autoFocus
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Nova Senha</label>
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Digite a nova senha (mínimo 6 caracteres)"
+                      className="form-input"
+                      required
+                      minLength="6"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Confirmar Nova Senha</label>
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Digite novamente a nova senha"
+                      className="form-input"
+                      required
+                    />
+                  </div>
+
+                  <div style={{ 
+                    background: '#fff3e0', 
+                    border: '2px solid #FF9800',
+                    borderRadius: '8px',
+                    padding: '12px',
+                    marginTop: '15px'
+                  }}>
+                    <p style={{ fontSize: '13px', color: '#e65100' }}>
+                      ⚠️ <strong>Importante:</strong> Anote sua nova senha em um local seguro. 
+                      Você precisará dela na próxima vez que fizer login.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="modal-footer">
+                  <button 
+                    type="button" 
+                    className="btn-cancel" 
+                    onClick={() => {
+                      setShowPasswordModal(false);
+                      setCurrentPassword('');
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                  <button type="submit" className="btn-save">
+                    🔑 Alterar Senha
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

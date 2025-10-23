@@ -1604,3 +1604,84 @@
     height: 250px;
   }
 }
+
+/* ============ ESTILOS DE SEGURANÇA ============ */
+
+.security-feature-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.security-feature-card:hover {
+  border-color: #4CAF50;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
+}
+
+.security-feature-header h4 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.security-feature-header p {
+  color: #666;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.security-feature-header ul {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.security-feature-header ul li {
+  color: #555;
+}
+
+.security-feature-header ul li strong {
+  color: #333;
+}
+
+.forgot-password-link {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 8px;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.forgot-password-link:hover {
+  color: #45a049;
+  background: #f1f8f4;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* Responsivo para segurança */
+@media (max-width: 768px) {
+  .security-feature-card {
+    padding: 15px;
+  }
+
+  .security-feature-header h4 {
+    font-size: 1rem;
+  }
+
+  .security-feature-header p {
+    font-size: 0.85rem;
+  }
+
+  .forgot-password-link {
+    font-size: 0.85rem;
+  }
+}
