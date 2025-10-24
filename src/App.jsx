@@ -72,8 +72,9 @@ return (
                   <h3>Dra. Teiciane Ramalho</h3>
                   <p>Fisioterapeuta CREFITO-3: 123456-F</p>
                   <p className="footer-desc">
-                    Especialista em Fisioterapia Domiciliar e Tratamentos Estéticos com mais de 12 anos de experiência, 
-                    dedicada a proporcionar tratamentos de excelência no conforto do seu lar.
+                    Fisioterapeuta (UNIVOVE 2021), Instrutora de Pilates e pós-graduanda em 
+                    Fisioterapia Dermatofuncional. Atendimento domiciliar personalizado e humanizado, 
+                    com foco em reabilitação, estética e bem-estar.
                   </p>
                 </div>
                 <div className="footer-section">
@@ -93,7 +94,7 @@ return (
                   <p>✉️ drateiciane.fisio@email.com</p>
                   <p>📍 São Paulo - SP</p>
                   <div className="footer-social">
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <a href="https://instagram.com/dra.teicianeramalho" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                       📷 Instagram
                     </a>
                     <a href="https://wa.me/5511948541086?text=Olá%20Dra.%20Teiciane!%20😊%20Vim%20pelo%20seu%20site." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
@@ -139,6 +140,7 @@ return (
               <a href="#sobre" onClick={() => { navigateTo('home'); scrollToSection('sobre'); }}>Sobre Mim</a>
               <a href="#servicos" onClick={() => { navigateTo('home'); scrollToSection('servicos'); }}>Fisioterapia</a>
               <a href="#esteticos" onClick={() => navigateTo('esteticos')}>Estética</a>
+              <a href="#galeria" onClick={() => { navigateTo('home'); scrollToSection('galeria'); }}>Galeria</a>
               <a href="#depoimentos" onClick={() => { navigateTo('home'); scrollToSection('depoimentos'); }}>Depoimentos</a>
               <a href="#contato" onClick={() => { navigateTo('home'); scrollToSection('contato'); }}>Contato</a>
 </nav>
@@ -183,37 +185,59 @@ return (
             </div>
             <div className="about-text-content">
               <h2 className="section-title">Sobre Mim</h2>
-              <h3 className="about-subtitle">Mais de 12 anos Transformando Vidas</h3>
+              <h3 className="about-subtitle">Cuidando da sua saúde com dedicação e profissionalismo</h3>
               <p className="about-text">
-                Olá! Sou a Dra. Teiciane Ramalho, fisioterapeuta formada pela Universidade de São Paulo (USP), 
-                com especialização em Fisioterapia Neurológica e Geriátrica. Desde 2011, dedico minha carreira 
-                a levar tratamentos de excelência diretamente para o lar dos meus pacientes.
+                Olá! Meu nome é Teiciane Ramalho, sou fisioterapeuta formada em 2021 pela UNIVOVE, 
+                com experiência em reabilitação e promoção da saúde por meio de uma abordagem personalizada 
+                e humanizada.
               </p>
               <p className="about-text">
-                Acredito que o ambiente familiar é fundamental para uma recuperação mais rápida e eficaz. 
-                Por isso, personalizo cada atendimento de acordo com as necessidades individuais, sempre 
-                com muito profissionalismo, empatia e dedicação.
+                Em 2024, concluí o curso de Instrutora de Pilates, o que me permitiu integrar o método 
+                aos atendimentos fisioterapêuticos, proporcionando melhora na postura, força, flexibilidade 
+                e qualidade de vida dos pacientes.
+              </p>
+              <p className="about-text">
+                Atualmente, estou cursando pós-graduação em Fisioterapia Dermatofuncional (2025–2026), 
+                área que une reabilitação, estética e funcionalidade, com foco em tratamentos para 
+                disfunções corporais e cuidados com a pele.
+              </p>
+              <p className="about-text">
+                Realizo atendimentos em home care, levando a fisioterapia até o conforto e segurança do 
+                lar do paciente. Essa modalidade permite um acompanhamento mais próximo, personalizado e 
+                adaptado à rotina e ao ambiente de cada pessoa, garantindo praticidade sem abrir mão da 
+                qualidade do tratamento.
+              </p>
+              <p className="about-text">
+                Meu propósito é cuidar com empatia, profissionalismo e dedicação, ajudando cada paciente 
+                a alcançar o equilíbrio entre corpo, mente e bem-estar.
               </p>
               <div className="credentials">
                 <div className="credential-item">
                   <span className="credential-icon">🎓</span>
                   <div>
                     <strong>Formação</strong>
-                    <p>Universidade de São Paulo (USP)</p>
+                    <p>Fisioterapia - UNIVOVE (2021)</p>
+                  </div>
+                </div>
+                <div className="credential-item">
+                  <span className="credential-icon">🧘</span>
+                  <div>
+                    <strong>Pilates</strong>
+                    <p>Instrutora de Pilates (2024)</p>
                   </div>
                 </div>
                 <div className="credential-item">
                   <span className="credential-icon">📜</span>
                   <div>
-                    <strong>Especializações</strong>
-                    <p>Neurológica e Geriátrica</p>
+                    <strong>Pós-Graduação</strong>
+                    <p>Fisioterapia Dermatofuncional (em andamento)</p>
                   </div>
                 </div>
                 <div className="credential-item">
-                  <span className="credential-icon">⭐</span>
+                  <span className="credential-icon">🏠</span>
                   <div>
-                    <strong>Experiência</strong>
-                    <p>+12 anos de atuação</p>
+                    <strong>Atendimento</strong>
+                    <p>Home Care - Atendimento Domiciliar</p>
                   </div>
                 </div>
               </div>
@@ -347,6 +371,149 @@ return (
             >
               Fale Comigo no WhatsApp
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section - Galeria de Trabalhos */}
+      <section id="galeria" className="gallery">
+        <div className="container">
+          <h2 className="section-title">Galeria de Trabalhos</h2>
+          <p className="section-subtitle">Conheça alguns dos nossos resultados e tratamentos</p>
+          
+          <div className="gallery-grid">
+            {/* Card 1 - Fisioterapia */}
+            <div className="gallery-card">
+              <div className="gallery-image">
+                <img 
+                  src="/images/trabalhos/trabalho-1.jpg" 
+                  alt="Tratamento de fisioterapia"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300/e3f2fd/1976d2?text=Fisioterapia+1';
+                  }}
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-tag">Fisioterapia</span>
+                </div>
+              </div>
+              <div className="gallery-content">
+                <h3>Reabilitação Pós-Operatória</h3>
+                <p>Tratamento de reabilitação completa com exercícios personalizados e acompanhamento contínuo para recuperação funcional.</p>
+                <span className="gallery-date">📅 Janeiro 2025</span>
+              </div>
+            </div>
+
+            {/* Card 2 - Fisioterapia */}
+            <div className="gallery-card">
+              <div className="gallery-image">
+                <img 
+                  src="/images/trabalhos/trabalho-2.jpg" 
+                  alt="Tratamento de fisioterapia"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300/e3f2fd/1976d2?text=Fisioterapia+2';
+                  }}
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-tag">Fisioterapia</span>
+                </div>
+              </div>
+              <div className="gallery-content">
+                <h3>Fisioterapia Neurológica</h3>
+                <p>Reabilitação neurológica com foco em recuperação de movimentos e coordenação motora do paciente.</p>
+                <span className="gallery-date">📅 Fevereiro 2025</span>
+              </div>
+            </div>
+
+            {/* Card 3 - Pilates */}
+            <div className="gallery-card">
+              <div className="gallery-image">
+                <img 
+                  src="/images/trabalhos/trabalho-3.jpg" 
+                  alt="Sessão de Pilates"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300/f3e5f5/7b1fa2?text=Pilates+1';
+                  }}
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-tag">Pilates</span>
+                </div>
+              </div>
+              <div className="gallery-content">
+                <h3>Pilates - Fortalecimento do Core</h3>
+                <p>Aula de Pilates focada em fortalecimento abdominal, melhora postural e aumento da flexibilidade.</p>
+                <span className="gallery-date">📅 Dezembro 2024</span>
+              </div>
+            </div>
+
+            {/* Card 4 - Pilates */}
+            <div className="gallery-card">
+              <div className="gallery-image">
+                <img 
+                  src="/images/trabalhos/trabalho-4.jpg" 
+                  alt="Sessão de Pilates"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300/f3e5f5/7b1fa2?text=Pilates+2';
+                  }}
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-tag">Pilates</span>
+                </div>
+              </div>
+              <div className="gallery-content">
+                <h3>Pilates Terapêutico</h3>
+                <p>Sessão individual de Pilates com foco em reabilitação e alívio de dores crônicas na coluna.</p>
+                <span className="gallery-date">📅 Novembro 2024</span>
+              </div>
+            </div>
+
+            {/* Card 5 - Estética */}
+            <div className="gallery-card">
+              <div className="gallery-image">
+                <img 
+                  src="/images/trabalhos/trabalho-5.jpg" 
+                  alt="Tratamento estético"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300/e8f5e9/388e3c?text=Estetica';
+                  }}
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-tag">Estética</span>
+                </div>
+              </div>
+              <div className="gallery-content">
+                <h3>Tratamento Dermatofuncional</h3>
+                <p>Procedimento estético facial com técnicas de fisioterapia dermatofuncional para rejuvenescimento e cuidados com a pele.</p>
+                <span className="gallery-date">📅 Outubro 2024</span>
+              </div>
+            </div>
+
+            {/* Card 6 - Home Care */}
+            <div className="gallery-card">
+              <div className="gallery-image">
+                <img 
+                  src="/images/trabalhos/trabalho-6.jpg" 
+                  alt="Atendimento domiciliar"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300/fff3e0/f57c00?text=Home+Care';
+                  }}
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-tag">Home Care</span>
+                </div>
+              </div>
+              <div className="gallery-content">
+                <h3>Atendimento Domiciliar</h3>
+                <p>Fisioterapia no conforto e segurança do lar, com todos os equipamentos necessários para tratamento completo.</p>
+                <span className="gallery-date">📅 Setembro 2024</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="gallery-info">
+            <p className="gallery-note">
+              ⚠️ <strong>Importante:</strong> As fotos dos pacientes são compartilhadas apenas com autorização prévia 
+              e seguem todas as normas de privacidade e ética profissional.
+            </p>
           </div>
         </div>
       </section>
@@ -586,8 +753,8 @@ return (
               <h3>Dra. Teiciane Ramalho</h3>
               <p>Fisioterapeuta CREFITO-3: 123456-F</p>
               <p className="footer-desc">
-                Especialista em Fisioterapia Domiciliar com mais de 12 anos de experiência, 
-                dedicada a proporcionar tratamentos de excelência no conforto do seu lar.
+                Fisioterapeuta (UNIVOVE 2021), Instrutora de Pilates e pós-graduanda em 
+                Fisioterapia Dermatofuncional. Atendimento domiciliar personalizado e humanizado.
               </p>
             </div>
             <div className="footer-section">
@@ -607,7 +774,7 @@ return (
               <p>✉️ drateiciane.fisio@email.com</p>
               <p>📍 São Paulo - SP</p>
               <div className="footer-social">
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <a href="https://instagram.com/dra.teicianeramalho" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                   📷 Instagram
                 </a>
                 <a href="https://wa.me/5511948541086?text=Olá%20Dra.%20Teiciane!%20😊%20Vim%20pelo%20seu%20site." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">

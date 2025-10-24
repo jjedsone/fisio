@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Função helper para verificar se o usuário é admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Agendamentos - Público pode criar, Admin pode ler/atualizar/deletar
+    match /agendamentos/{agendamentoId} {
+      allow create: if true; // Qualquer um pode criar agendamento
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Conversas - Público pode criar, Admin pode ler/atualizar
+    match /conversas/{conversaId} {
+      allow create: if true; // Qualquer um pode criar conversa via chatbot
+      allow read, update: if isAdmin();
+    }
+    
+    // Leads - Público pode criar, Admin pode ler/atualizar
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read, update: if isAdmin();
+    }
+    
+    // Mensagens WhatsApp - Público pode criar, Admin pode ler
+    match /mensagensWhatsApp/{mensagemId} {
+      allow create: if true;
+      allow read: if isAdmin();
+    }
+    
+    // Configurações - Apenas Admin
+    match /configuracoes/{configId} {
+      allow read: if true; // Leitura pública para horários
+      allow write: if isAdmin();
+    }
+  }
+}
+

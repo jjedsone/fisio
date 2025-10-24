@@ -2,28 +2,22 @@
 node_modules/
 package-lock.json
 
-# Build
+# Production
 dist/
-dist-ssr/
-*.local
+build/
 
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Firebase
+.firebase/
+.firebaserc.local
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
 
-# OS
-.DS_Store
-Thumbs.db
-
-# WhatsApp Auth (não commitar sessão do WhatsApp)
-.wwebjs_auth/
-.wwebjs_cache/
-
-# Data (não commitar dados locais)
-data/
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
 
 # Logs
 logs/
@@ -31,16 +25,32 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# Environment
-.env
-.env.local
-.env.*.local
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
-# Testing
-coverage/
+# Firebase Functions
+functions/node_modules/
+functions/.runtimeconfig.json
 
-# Misc
-*.tsbuildinfo
+# Service Account Keys (IMPORTANTE: NUNCA commitar!)
+**/serviceAccountKey.json
+**/service-account.json
+
+# Backup files
+backup-*.json
+data-export-*.json
+
+# WhatsApp session
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
