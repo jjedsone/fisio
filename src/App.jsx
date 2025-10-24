@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Chatbot from './components/Chatbot';
 import AdminPanel from './components/AdminPanel';
 import ServicosEsteticos from './pages/ServicosEsteticos';
+import { galeriaService } from './services/galeriaService';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,6 +11,25 @@ function App() {
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [adminPanelOpen, setAdminPanelOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
+  const [trabalhos, setTrabalhos] = useState([]);
+  const [loadingTrabalhos, setLoadingTrabalhos] = useState(true);
+
+  // Carregar trabalhos da galeria do Firebase
+  useEffect(() => {
+    carregarTrabalhos();
+  }, []);
+
+  const carregarTrabalhos = async () => {
+    try {
+      const dados = await galeriaService.listar();
+      setTrabalhos(dados);
+    } catch (error) {
+      console.error('Erro ao carregar galeria:', error);
+      // Mantém array vazio se der erro
+    } finally {
+      setLoadingTrabalhos(false);
+    }
+  };
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -381,133 +401,57 @@ return (
           <h2 className="section-title">Galeria de Trabalhos</h2>
           <p className="section-subtitle">Conheça alguns dos nossos resultados e tratamentos</p>
           
-          <div className="gallery-grid">
-            {/* Card 1 - Fisioterapia */}
-            <div className="gallery-card">
-              <div className="gallery-image">
-                <img 
-                  src="/images/trabalhos/trabalho-1.jpg" 
-                  alt="Tratamento de fisioterapia"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300/e3f2fd/1976d2?text=Fisioterapia+1';
-                  }}
-                />
-                <div className="gallery-overlay">
-                  <span className="gallery-tag">Fisioterapia</span>
-                </div>
-              </div>
-              <div className="gallery-content">
-                <h3>Reabilitação Pós-Operatória</h3>
-                <p>Tratamento de reabilitação completa com exercícios personalizados e acompanhamento contínuo para recuperação funcional.</p>
-                <span className="gallery-date">📅 Janeiro 2025</span>
-              </div>
+          {loadingTrabalhos ? (
+            <div className="gallery-loading">
+              <p>Carregando trabalhos...</p>
             </div>
+          ) : trabalhos.length === 0 ? (
+            <div className="gallery-empty">
+              <p>📸 Nenhum trabalho cadastrado ainda.</p>
+              <p>Em breve teremos novidades por aqui!</p>
+            </div>
+          ) : (
+            <div className="gallery-grid">
+              {trabalhos.map((trabalho) => {
+                const getCategoriaColor = (cat) => {
+                  const colors = {
+                    'Fisioterapia': '#0066cc',
+                    'Pilates': '#7b1fa2',
+                    'Estética': '#388e3c',
+                    'Home Care': '#f57c00'
+                  };
+                  return colors[cat] || '#0066cc';
+                };
 
-            {/* Card 2 - Fisioterapia */}
-            <div className="gallery-card">
-              <div className="gallery-image">
-                <img 
-                  src="/images/trabalhos/trabalho-2.jpg" 
-                  alt="Tratamento de fisioterapia"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300/e3f2fd/1976d2?text=Fisioterapia+2';
-                  }}
-                />
-                <div className="gallery-overlay">
-                  <span className="gallery-tag">Fisioterapia</span>
-                </div>
-              </div>
-              <div className="gallery-content">
-                <h3>Fisioterapia Neurológica</h3>
-                <p>Reabilitação neurológica com foco em recuperação de movimentos e coordenação motora do paciente.</p>
-                <span className="gallery-date">📅 Fevereiro 2025</span>
-              </div>
+                return (
+                  <div key={trabalho.id} className="gallery-card">
+                    <div className="gallery-image">
+                      <img 
+                        src={trabalho.imagemUrl} 
+                        alt={trabalho.titulo}
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/400x300/e3f2fd/1976d2?text=Sem+Imagem';
+                        }}
+                      />
+                      <div className="gallery-overlay">
+                        <span 
+                          className="gallery-tag"
+                          style={{ backgroundColor: getCategoriaColor(trabalho.categoria) }}
+                        >
+                          {trabalho.categoria}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="gallery-content">
+                      <h3>{trabalho.titulo}</h3>
+                      <p>{trabalho.descricao}</p>
+                      <span className="gallery-date">📅 {trabalho.data}</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-
-            {/* Card 3 - Pilates */}
-            <div className="gallery-card">
-              <div className="gallery-image">
-                <img 
-                  src="/images/trabalhos/trabalho-3.jpg" 
-                  alt="Sessão de Pilates"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300/f3e5f5/7b1fa2?text=Pilates+1';
-                  }}
-                />
-                <div className="gallery-overlay">
-                  <span className="gallery-tag">Pilates</span>
-                </div>
-              </div>
-              <div className="gallery-content">
-                <h3>Pilates - Fortalecimento do Core</h3>
-                <p>Aula de Pilates focada em fortalecimento abdominal, melhora postural e aumento da flexibilidade.</p>
-                <span className="gallery-date">📅 Dezembro 2024</span>
-              </div>
-            </div>
-
-            {/* Card 4 - Pilates */}
-            <div className="gallery-card">
-              <div className="gallery-image">
-                <img 
-                  src="/images/trabalhos/trabalho-4.jpg" 
-                  alt="Sessão de Pilates"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300/f3e5f5/7b1fa2?text=Pilates+2';
-                  }}
-                />
-                <div className="gallery-overlay">
-                  <span className="gallery-tag">Pilates</span>
-                </div>
-              </div>
-              <div className="gallery-content">
-                <h3>Pilates Terapêutico</h3>
-                <p>Sessão individual de Pilates com foco em reabilitação e alívio de dores crônicas na coluna.</p>
-                <span className="gallery-date">📅 Novembro 2024</span>
-              </div>
-            </div>
-
-            {/* Card 5 - Estética */}
-            <div className="gallery-card">
-              <div className="gallery-image">
-                <img 
-                  src="/images/trabalhos/trabalho-5.jpg" 
-                  alt="Tratamento estético"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300/e8f5e9/388e3c?text=Estetica';
-                  }}
-                />
-                <div className="gallery-overlay">
-                  <span className="gallery-tag">Estética</span>
-                </div>
-              </div>
-              <div className="gallery-content">
-                <h3>Tratamento Dermatofuncional</h3>
-                <p>Procedimento estético facial com técnicas de fisioterapia dermatofuncional para rejuvenescimento e cuidados com a pele.</p>
-                <span className="gallery-date">📅 Outubro 2024</span>
-              </div>
-            </div>
-
-            {/* Card 6 - Home Care */}
-            <div className="gallery-card">
-              <div className="gallery-image">
-                <img 
-                  src="/images/trabalhos/trabalho-6.jpg" 
-                  alt="Atendimento domiciliar"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300/fff3e0/f57c00?text=Home+Care';
-                  }}
-                />
-                <div className="gallery-overlay">
-                  <span className="gallery-tag">Home Care</span>
-                </div>
-              </div>
-              <div className="gallery-content">
-                <h3>Atendimento Domiciliar</h3>
-                <p>Fisioterapia no conforto e segurança do lar, com todos os equipamentos necessários para tratamento completo.</p>
-                <span className="gallery-date">📅 Setembro 2024</span>
-              </div>
-            </div>
-          </div>
+          )}
 
           <div className="gallery-info">
             <p className="gallery-note">

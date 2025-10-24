@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AdminPanel.css';
+import GaleriaAdmin from './GaleriaAdmin';
 
 const AdminPanel = ({ onClose }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -706,6 +707,12 @@ const AdminPanel = ({ onClose }) => {
             )}
           </button>
           <button 
+            className={`admin-tab ${activeTab === 'galeria' ? 'active' : ''}`}
+            onClick={() => setActiveTab('galeria')}
+          >
+            📸 Galeria
+          </button>
+          <button 
             className={`admin-tab ${activeTab === 'security' ? 'active' : ''}`}
             onClick={() => setActiveTab('security')}
           >
@@ -1215,6 +1222,12 @@ const AdminPanel = ({ onClose }) => {
                   <li>Se o bot desconectar, basta escane o QR Code novamente</li>
                 </ul>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'galeria' && (
+            <div className="galeria-panel">
+              <GaleriaAdmin />
             </div>
           )}
 

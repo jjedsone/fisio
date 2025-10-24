@@ -1210,6 +1210,29 @@ body {
   background: #f57c00;
 }
 
+/* Gallery Loading e Empty States */
+.gallery-loading,
+.gallery-empty {
+  text-align: center;
+  padding: 60px 20px;
+  margin: 40px 0;
+}
+
+.gallery-loading p {
+  color: var(--text-gray);
+  font-size: 1.1rem;
+}
+
+.gallery-empty p {
+  color: var(--text-gray);
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+.gallery-empty p:first-child {
+  font-size: 2rem;
+}
+
 /* Responsivo - Galeria */
 @media (max-width: 768px) {
   .gallery {

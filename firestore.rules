@@ -36,6 +36,12 @@ service cloud.firestore {
       allow read: if true; // Leitura pública para horários
       allow write: if isAdmin();
     }
+    
+    // Galeria de Trabalhos - Público pode ler, Admin pode escrever
+    match /galeriaTrabalhos/{trabalhoId} {
+      allow read: if true; // Qualquer um pode ver a galeria
+      allow create, update, delete: if isAdmin();
+    }
   }
 }
 
